@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-[AddComponentMenu("Nokobot/Modern Guns/Simple Shoot")]
+using UnityEngine.XR.Interaction.Toolkit;
 public class SimpleShoot : MonoBehaviour
 {
     [Header("Prefab Refrences")]
@@ -20,7 +19,18 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
+    public Magazin magazin;
+    public XRBaseInteractor socketInteractor;
 
+    public void AddMagazin(XRBaseInteractable interactable)
+    {
+        magazin = interactable.GetComponent<Magazin>();
+    }
+
+    public void RemoveMagazin(XRBaseInteractable interactable)
+    {
+        magazin = null;
+    }
     void Start()
     {
         if (barrelLocation == null)
@@ -28,22 +38,22 @@ public class SimpleShoot : MonoBehaviour
 
         if (gunAnimator == null)
             gunAnimator = GetComponentInChildren<Animator>();
+
+        socketInteractor.onSelectEntered.AddListener(AddMagazin);
+        socketInteractor.onSelectExited.AddListener(RemoveMagazin);
     }
 
-    void Update()
+    public void PullTheTrigger()
     {
-        //If you want a different input, change it here
-        if (Input.GetButtonDown("Fire1"))
+        if (magazin && magazin.NumberOfBullet > 0)
         {
-            //Calls animation on the gun that has the relevant animation events that will fire
             gunAnimator.SetTrigger("Fire");
         }
     }
 
-
-    //This function creates the bullet behavior
     void Shoot()
     {
+        magazin.NumberOfBullet--;
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
