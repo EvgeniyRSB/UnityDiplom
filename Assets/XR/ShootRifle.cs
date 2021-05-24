@@ -19,18 +19,18 @@ public class ShootRifle : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
-    public Magazin magazin;
-    public XRBaseInteractor socketInteractor;
+    //public Magazin magazin;
+    //public XRBaseInteractor socketInteractor;
 
-    public void AddMagazin(XRBaseInteractable interactable)
-    {
-        magazin = interactable.GetComponent<Magazin>();
-    }
+    //public void AddMagazin(XRBaseInteractable interactable)
+    //{
+      //  magazin = interactable.GetComponent<Magazin>();
+    //}
 
-    public void RemoveMagazin(XRBaseInteractable interactable)
-    {
-        magazin = null;
-    }
+    //public void RemoveMagazin(XRBaseInteractable interactable)
+    //{
+      //  magazin = null;
+    //}
     void Start()
     {
         if (barrelLocation == null)
@@ -39,22 +39,22 @@ public class ShootRifle : MonoBehaviour
         if (gunAnimator == null)
             gunAnimator = GetComponentInChildren<Animator>();
 
-        socketInteractor.onSelectEntered.AddListener(AddMagazin);
-        socketInteractor.onSelectExited.AddListener(RemoveMagazin);
+    //    socketInteractor.onSelectEntered.AddListener(AddMagazin);
+      //  socketInteractor.onSelectExited.AddListener(RemoveMagazin);
     }
 
     public void PullTheTrigger()
     {
-        if (magazin && magazin.NumberOfBullet > 0)
-        {
+        //if (magazin && magazin.NumberOfBullet > 0)
+        //{
             gunAnimator.SetTrigger("ShootRifle");
-        }
+        //}
     }
 
     //This function creates the bullet behavior
     void Shoot()
     {
-        magazin.NumberOfBullet--;
+        //magazin.NumberOfBullet--;
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
